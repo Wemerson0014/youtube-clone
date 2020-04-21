@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val res = async { getVideo() }
             val listVideo = res.await()
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 listVideo?.let {
                     videos.clear()
                     videos.addAll(listVideo.data)
