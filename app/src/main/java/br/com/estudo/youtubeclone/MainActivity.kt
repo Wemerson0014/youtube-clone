@@ -1,6 +1,8 @@
 package br.com.estudo.youtubeclone
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
@@ -16,6 +18,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.title =""
 
         val videos: MutableList<Video> = mutableListOf<Video>()
         videoAdapter = VideoAdapter(videos) { video: Video ->
@@ -33,10 +38,15 @@ class MainActivity : AppCompatActivity() {
                     videos.clear()
                     videos.addAll(listVideo.data)
                     videoAdapter.notifyDataSetChanged()
-                    motion_container.removeView(progress_recycler)
+                    progress_recycler.visibility = View.GONE
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun getVideo(): ListVideo? {
