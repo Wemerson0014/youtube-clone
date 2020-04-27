@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.video_detail.*
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -22,10 +24,12 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title =""
 
-        val videos: MutableList<Video> = mutableListOf<Video>()
-        videoAdapter = VideoAdapter(videos) { video: Video ->
-            println(video)
+        val videos = mutableListOf<Video>()
+        videoAdapter = VideoAdapter(videos) { video ->
+            showOverlayView(video)
         }
+
+        view_layer.alpha = 0f
 
         rv_main.layoutManager = LinearLayoutManager(this)
         rv_main.adapter = videoAdapter
@@ -48,6 +52,35 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun showOverlayView(video: Video){
+        view_layer.animate().apply {
+            duration = 400
+            alpha(0.5f)
+        }
+
+        motion_container.setTransitionListener(object : MotionLayout.TransitionListener{
+            override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progess: Float) {
+                if (progess > 0.5f)
+                    view_layer.alpha = 1.0f - progess
+                else
+                    view_layer.alpha = 0.5f
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     private fun getVideo(): ListVideo? {

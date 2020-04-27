@@ -7,9 +7,13 @@
         app:constraintSetStart="@id/start"
         app:duration="300">
 
-        <OnClick
+        <OnSwipe
+            app:dragDirection="dragUp"
+            app:touchAnchorId="@id/video_player"
+            app:touchRegionId="@id/video_player" />
+        <!-- <OnClick
             app:clickAction="toggle"
-            app:targetId="@id/video_player" />
+            app:targetId="@id/video_player" /> -->
 
     </Transition>
 
